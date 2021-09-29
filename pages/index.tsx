@@ -1,3 +1,4 @@
+import { ShortProfileToggleButton } from "@src/features/ShortProfileButton";
 import Head from "next/head";
 import { ListOfLists, LoginPrompt } from "../src/components";
 import { useTwitterIsLoggedIn } from "../src/hooks";
@@ -25,7 +26,10 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>Twitter List Sorter</h1>
+        <div>
+          <h1 className={styles.title}>Twitter List Sorter</h1>
+          <ShortProfileToggleButton />
+        </div>
         <HomeMain />
       </main>
     </div>
