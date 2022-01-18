@@ -38,7 +38,7 @@ export function useTwitterFriends():
 
   const { data, error } = useSWRInfinite<TwitterListMembers>(
     (pageIndex, previousPageData: any) => {
-      if (pageIndex === 0) return "first";
+      if (pageIndex === 0) return "useTwitterFriends.firstfriends";
       if (!previousPageData.next_cursor_str) {
         return null;
       }
@@ -46,7 +46,7 @@ export function useTwitterFriends():
     },
     async (next_cursor: string) => {
       const url =
-        next_cursor === "first"
+        next_cursor === "useTwitterFriends.firstfriends"
           ? `/api/twitter/friends`
           : `/api/twitter/friends?${new URLSearchParams({ next_cursor })}`;
       const response = await fetch(url, {

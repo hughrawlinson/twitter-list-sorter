@@ -13,7 +13,7 @@ export const ListMembers = ({ list }: ListMembersProps) => {
     slug: list.slug,
   });
 
-  if (isLoadingFailure(members)) {
+  if (isLoadingFailure(members) || typeof members === "undefined") {
     return <h3>Failed to load list members for {list.name}</h3>;
   }
   return (

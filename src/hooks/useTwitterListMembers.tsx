@@ -1,4 +1,5 @@
 import useSWR from "swr";
+import { LoadingFailure } from ".";
 import { useTwitterToken } from "./useTwitterToken";
 
 export type TwitterListMembers = {
@@ -39,24 +40,24 @@ export function useTwitterListMembers({
   listId,
   slug,
   ownerId,
-}: UseTwitterListMembersProps) {
+}: UseTwitterListMembersProps):
+  | TwitterListMembers
+  | LoadingFailure
+  | undefined {
   const twitterToken = useTwitterToken();
-  const { data, error, isValidating, mutate } = useSWR(
-    `${listId},${slug},${ownerId}`,
-    async () => {
-      const response = await fetch(
-        `/api/twitter/lists/${listId}/members?slug=${slug}&owner_id=${ownerId}`,
-        {
-          headers: {
-            authorization: `Bearer ${twitterToken}`,
-          },
-        }
-      );
+  const { data, error } = useSWR(`${listId},${slug},${ownerId}`, async () => {
+    const response = await fetch(
+      `/api/twitter/lists/${listId}/members?slug=${slug}&owner_id=${ownerId}`,
+      {
+        headers: {
+          authorization: `Bearer ${twitterToken}`,
+        },
+      }
+    );
 
-      const result = await response.json();
-      return validateTwitterListMembers(result);
-    }
-  );
+    const result = await response.json();
+    return validateTwitterListMembers(result);
+  });
 
   if (error) {
     return {
