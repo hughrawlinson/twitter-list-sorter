@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { LoadingFailure } from "./LoadingFailure";
+import useSWR from "swr";
+import { LoadingFailure } from ".";
 import { useTwitterToken } from "./useTwitterToken";
 
 export type TwitterListMembers = {
@@ -30,42 +30,27 @@ function validateTwitterListMembers(o: any): TwitterListMembers {
   return o as TwitterListMembers;
 }
 
-export function useTwitterFollowers() {
-  const [twitterListMembers, setTwitterListMembers] = useState<
-    null | TwitterListMembers | LoadingFailure
-  >(null);
-
+export function useTwitterFollowers():
+  | LoadingFailure
+  | TwitterListMembers
+  | undefined {
   const twitterToken = useTwitterToken();
 
-  useEffect(() => {
-    let updateResult = true;
+  const { data, error } = useSWR("followers", async () => {
+    const response = await fetch(`/api/twitter/followers`, {
+      headers: {
+        authorization: `Bearer ${twitterToken}`,
+      },
+    });
 
-    if (twitterListMembers === null) {
-      (async () => {
-        const response = await fetch(`/api/twitter/followers`, {
-          headers: {
-            authorization: `Bearer ${twitterToken}`,
-          },
-        });
-
-        if (!response.ok) {
-          return setTwitterListMembers({
-            _type: "LoadingFailure",
-            reason: await response.text(),
-          });
-        }
-
-        const result = await response.json();
-        if (updateResult) {
-          setTwitterListMembers(validateTwitterListMembers(result));
-        }
-      })();
-    }
-
-    return function cancelFetchHandler() {
-      updateResult = false;
+    const result = await response.json();
+    return validateTwitterListMembers(result);
+  });
+  if (error) {
+    return {
+      _type: "LoadingFailure",
+      reason: error.message,
     };
-  }, [twitterListMembers, setTwitterListMembers]);
-
-  return twitterListMembers;
+  }
+  return data;
 }
