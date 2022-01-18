@@ -6,7 +6,7 @@ import { twitterApi } from "@src/twitter-calls/twitterApi";
 const getListsAPI: NextApiHandler = async (request, response) => {
   try {
     const token = twitterTokenFromRequest(request);
-    twitterApi({
+    await twitterApi({
       provider: getLists,
       token,
       response,
@@ -16,7 +16,7 @@ const getListsAPI: NextApiHandler = async (request, response) => {
     });
   } catch (e) {
     // @ts-expect-error
-    response.status(401).send(e.message);
+    response.status(401).send(e.message).end();
   }
 };
 

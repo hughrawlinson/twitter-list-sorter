@@ -26,6 +26,6 @@ export async function twitterApi({
     response.end();
   } catch (e) {
     // @ts-expect-error
-    response.status(500).json({ error: e.errors });
+    response.status(500).json({ error: e.errors }).end();
   }
 }

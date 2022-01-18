@@ -13,7 +13,7 @@ const getListsAPI: NextApiHandler = async (request, response) => {
     if (request.query.next_cursor) {
       params.cursor = request.query.next_cursor as string;
     }
-    twitterApi({
+    await twitterApi({
       provider: getFriends,
       token,
       response,
@@ -21,7 +21,7 @@ const getListsAPI: NextApiHandler = async (request, response) => {
     });
   } catch (e) {
     // @ts-expect-error
-    response.status(401).send(e.message);
+    response.status(401).send(e.message).end();
   }
 };
 

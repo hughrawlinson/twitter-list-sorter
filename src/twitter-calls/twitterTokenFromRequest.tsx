@@ -19,7 +19,6 @@ export function twitterTokenFromRequest(
   const bearerValue = request.headers.authorization.split(" ")[1];
   try {
     const jwtPayload = jwt.verify(bearerValue, JWT_SECRET);
-    console.log(jwtPayload);
     if (typeof jwtPayload === "string") {
       throw new Error("Jwt is verified, but payload is garbled");
     }
