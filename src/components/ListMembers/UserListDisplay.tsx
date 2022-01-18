@@ -20,8 +20,8 @@ export function UserListDisplay({
         <p>List members loading...</p>
       ) : (
         <ul>
-          {members.map((member) => (
-            <li>
+          {members.filter(Boolean).map((member) => (
+            <li key={member.id}>
               <ProfileCard user={member} />
             </li>
           ))}
