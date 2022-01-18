@@ -20,7 +20,9 @@ export function ProfileCard({ user }: ProfileCardProps) {
       <a href={`https://twitter.com/${user.screen_name}`}>{user.name}</a>
       <p>@{user.screen_name}</p>
       {user?.entities?.url?.urls.map((url) => (
-        <a href={url.url}>{url.display_url}</a>
+        <a key={url.url} href={url.url}>
+          {url.display_url}
+        </a>
       ))}
       <div>
         <p>{user.description}</p>
