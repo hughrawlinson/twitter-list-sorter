@@ -1,4 +1,5 @@
-import useSWR from "swr";
+import useSWRInfinite from "swr/infinite";
+import { LoadingFailure } from ".";
 import { useTwitterToken } from "./useTwitterToken";
 
 type TwitterListMembers = {
@@ -29,19 +30,36 @@ function validateTwitterListMembers(o: any): TwitterListMembers {
   return o as TwitterListMembers;
 }
 
-export function useTwitterFriends() {
+export function useTwitterFriends():
+  | LoadingFailure
+  | TwitterListMembers[]
+  | undefined {
   const twitterToken = useTwitterToken();
 
-  const { data, error } = useSWR("friends", async () => {
-    const response = await fetch(`/api/twitter/friends`, {
-      headers: {
-        authorization: `Bearer ${twitterToken}`,
-      },
-    });
+  const { data, error } = useSWRInfinite<TwitterListMembers>(
+    (pageIndex, previousPageData: any) => {
+      if (pageIndex === 0) return "first";
+      if (!previousPageData.next_cursor_str) {
+        return null;
+      }
+      return previousPageData.next_cursor_str;
+    },
+    async (next_cursor: string) => {
+      const url =
+        next_cursor === "first"
+          ? `/api/twitter/friends`
+          : `/api/twitter/friends?${new URLSearchParams({ next_cursor })}`;
+      const response = await fetch(url, {
+        headers: {
+          authorization: `Bearer ${twitterToken}`,
+        },
+      });
 
-    const result = await response.json();
-    return validateTwitterListMembers(result);
-  });
+      const result = await response.json();
+      return validateTwitterListMembers(result);
+    },
+    { initialSize: 5 }
+  );
 
   if (error) {
     return {

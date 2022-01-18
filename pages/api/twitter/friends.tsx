@@ -6,14 +6,18 @@ import { twitterApi } from "@src/twitter-calls/twitterApi";
 const getListsAPI: NextApiHandler = async (request, response) => {
   try {
     const token = twitterTokenFromRequest(request);
+    let params: { screen_name: string; count: number; cursor?: string } = {
+      screen_name: token.screenName,
+      count: 200,
+    };
+    if (request.query.next_cursor) {
+      params.cursor = request.query.next_cursor as string;
+    }
     twitterApi({
       provider: getFriends,
       token,
       response,
-      params: {
-        screen_name: token.screenName,
-        count: 200,
-      },
+      params,
     });
   } catch (e) {
     // @ts-expect-error

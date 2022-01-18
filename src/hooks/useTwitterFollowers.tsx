@@ -40,9 +40,7 @@ export function useTwitterFollowers():
 
   const { data, error, size, setSize } = useSWRInfinite(
     (pageIndex, previousPageData: any) => {
-      console.log(pageIndex);
-      console.log(previousPageData);
-      if (pageIndex === 0) return "first";
+      if (pageIndex === 0) return "useTwitterFollowers.firstfollowers";
       if (!previousPageData.next_cursor_str) {
         return null;
       }
@@ -50,7 +48,7 @@ export function useTwitterFollowers():
     },
     async (next_cursor: string) => {
       const url =
-        next_cursor === "first"
+        next_cursor === "useTwitterFollowers.firstfollowers"
           ? `/api/twitter/followers`
           : `/api/twitter/followers?${new URLSearchParams({
               next_cursor,
@@ -63,7 +61,8 @@ export function useTwitterFollowers():
 
       const result = await response.json();
       return validateTwitterListMembers(result);
-    }
+    },
+    { initialSize: 6 }
   );
   if (error) {
     return {
