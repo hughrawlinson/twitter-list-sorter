@@ -1,11 +1,10 @@
-import createPersistedState from "use-persisted-state";
-
-const useTwitterTokenState = createPersistedState<string | null>(
-  "TwitterToken"
-);
+import useLocalStorageState from "use-local-storage-state";
 
 export const useTwitterToken = (): string | null => {
-  const [token, setToken] = useTwitterTokenState(null);
+  const [token, setToken] = useLocalStorageState<string | null>(
+    "TwitterToken",
+    { ssr: false, defaultValue: null }
+  );
 
   if (typeof window === "undefined") {
     // we're on the nextjs server, no twitter auth for us!
