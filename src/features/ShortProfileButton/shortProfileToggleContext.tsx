@@ -1,9 +1,4 @@
-import React, {
-  ComponentType,
-  createContext,
-  useContext,
-  useState,
-} from "react";
+import React, { createContext, useContext, useState } from "react";
 
 interface ShortProfileToggleContext {
   showShortProfile: boolean;
@@ -45,9 +40,9 @@ export const useShortProfileToggle = () => {
 export const withShortProfileToggle = (
   Component: (...args: any[]) => JSX.Element
 ) => {
-  return (props: any) => (
+  return function WithShortProfileToggle(props: any) {
     <ShortProfileToggleProvider>
       <Component {...props} />
-    </ShortProfileToggleProvider>
-  );
+    </ShortProfileToggleProvider>;
+  };
 };
