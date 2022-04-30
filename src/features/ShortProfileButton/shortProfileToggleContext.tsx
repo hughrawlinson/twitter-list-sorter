@@ -16,7 +16,11 @@ export const ShortProfileToggleContext =
     toggleShortProfile: () => {},
   });
 
-export const ShortProfileToggleProvider: React.FC = function ({ children }) {
+export const ShortProfileToggleProvider = function ({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [showShortProfile, setShowShortProfile] = useState(false);
 
   return (
