@@ -3,7 +3,7 @@ import useLocalStorageState from "use-local-storage-state";
 export const useTwitterToken = (): string | null => {
   const [token, setToken] = useLocalStorageState<string | null>(
     "TwitterToken",
-    { ssr: false, defaultValue: null }
+    { defaultValue: null }
   );
 
   if (typeof window === "undefined") {

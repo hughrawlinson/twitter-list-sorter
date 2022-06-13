@@ -37,12 +37,12 @@ export const useShortProfileToggle = () => {
   return context;
 };
 
-export const withShortProfileToggle = (
-  Component: (...args: any[]) => JSX.Element
-) => {
+export const withShortProfileToggle = (Component: () => JSX.Element) => {
   return function WithShortProfileToggle(props: any) {
-    <ShortProfileToggleProvider>
-      <Component {...props} />
-    </ShortProfileToggleProvider>;
+    return (
+      <ShortProfileToggleProvider>
+        <Component {...props} />;
+      </ShortProfileToggleProvider>
+    );
   };
 };
