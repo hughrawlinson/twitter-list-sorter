@@ -13,9 +13,18 @@ const handleTwitterCallback: NextApiHandler = async (request, response) => {
     request.query;
   if (Array.isArray(oauthToken) || Array.isArray(oauthVerifier)) {
     throw new Error(
-      "You must provide no more than one of each of oauthTOken and oauthVerifier"
+      "You must provide no more than one of each of oauthToken and oauthVerifier"
     );
   }
+
+  if (!oauthToken) {
+    throw new Error("You must provide an oauth token");
+  }
+
+  if (!oauthVerifier) {
+    throw new Error("You must provide an oauth verifier");
+  }
+
   const twitterAccessToken = await getAccessToken({
     oauthToken,
     oauthVerifier,
