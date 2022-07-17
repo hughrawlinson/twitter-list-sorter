@@ -1,34 +1,26 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Twitter List Sorter
 
-## Getting Started
+For years on Twitter I followed about 1000 people, which was overwhelming, and
+not great for my mental health. Eventually I decided upon the following
+approach.
 
-First, run the development server:
+1. Unfollow as many people as reasonably possible (this left me with ~250
+   accounts to follow).
+2. Mute every account I follow.
+3. Group accounts into themed private lists, so that I can check in on specific
+   friend groups when I want to, rather than get blasted with whoever happens to
+   have tweeted most recently.
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+I did this using this tool I built, which shows on one page all the twitter
+lists I have, all the people I follow, and helped me make sure I wasn't
+following anyone who didn't make it into a list, and that I didn't snub any
+important accounts who were in a list.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The site is [publicly-available][site], so feel free to use it, though Twitter's
+API rate limits are not very high - if it stops working you may wish to deploy
+your own copy.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+It's written in React/NextJS (I think it was originally a create-react-app on
+Glitch), feel free to hack, modify, submit issues and PRs.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+[site]: https://twitter-list-sorter.vercel.app/
